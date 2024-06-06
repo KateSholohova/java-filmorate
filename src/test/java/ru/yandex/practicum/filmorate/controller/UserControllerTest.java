@@ -18,7 +18,7 @@ class UserControllerTest {
     }
 
     @Test
-    void TestCreateUser() {
+    void testCreateUser() {
         User user = new User();
         user.setEmail(" ");
         assertThrows(ValidationException.class, () -> {

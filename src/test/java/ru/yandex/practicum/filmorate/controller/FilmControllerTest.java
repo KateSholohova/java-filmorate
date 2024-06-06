@@ -20,7 +20,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void TestCreateFilm() {
+    void testCreateFilm() {
         Film film = new Film();
         film.setName(" ");
         assertThrows(ValidationException.class, () -> {
