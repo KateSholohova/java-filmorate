@@ -37,7 +37,7 @@ class FilmControllerTest {
             filmController.create(film);
         });
         film.setReleaseDate(LocalDate.parse("1900-12-28"));
-        film.setDuration(Duration.ofMinutes(-1));
+        film.setDuration(-1);
         assertThrows(ValidationException.class, () -> {
             filmController.create(film);
         });
