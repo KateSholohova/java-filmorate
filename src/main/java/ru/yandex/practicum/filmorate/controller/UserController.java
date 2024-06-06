@@ -47,6 +47,7 @@ public class UserController {
         log.info("Пользователь создан: {}", user);
         return user;
     }
+
     @PutMapping
     public User update(@RequestBody User newUser) {
 
@@ -68,16 +69,16 @@ public class UserController {
                 log.error("Некорректная дата рождения: {}", newUser.getBirthday());
                 throw new ValidationException("Дата рождения не может быть в будущем");
             }
-            if (newUser.getName()!= null){
+            if (newUser.getName() != null) {
                 oldUser.setName(newUser.getName());
             }
-            if (newUser.getBirthday()!= null){
+            if (newUser.getBirthday() != null) {
                 oldUser.setBirthday(newUser.getBirthday());
             }
-            if (newUser.getEmail()!= null){
+            if (newUser.getEmail() != null) {
                 oldUser.setEmail(newUser.getEmail());
             }
-            if (newUser.getLogin()!= null){
+            if (newUser.getLogin() != null) {
                 oldUser.setLogin(newUser.getLogin());
             }
             log.info("Пользователь обновлен: {}", oldUser);

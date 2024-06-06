@@ -41,13 +41,13 @@ public class FilmController {
             log.error("Некорректная продолжительность: {}", film.getDuration());
             throw new ValidationException("Продолжительность фильма должна быть положительным числом");
         }
-        // формируем дополнительные данные
+
         film.setId(getNextId());
-        // сохраняем новую публикацию в памяти приложения
         films.put(film.getId(), film);
         log.info("Фильм создан: {}", film);
         return film;
     }
+
     @PutMapping
     public Film update(@RequestBody Film newFilm) {
 
