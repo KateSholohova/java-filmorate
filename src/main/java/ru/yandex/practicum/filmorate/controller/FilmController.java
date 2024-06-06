@@ -69,15 +69,24 @@ public class FilmController {
                 log.error("Некорректная дата выхода: {}", newFilm.getReleaseDate());
                 throw new ValidationException("Дата релиза — не раньше 28 декабря 1895 года");
             }
-            if (newFilm.getDuration() != null && newFilm.getDuration().isPositive()) {
+            if (newFilm.getDuration() != null && newFilm.getDuration().isNegative()) {
                 log.error("Некорректная продолжительность: {}", newFilm.getDuration());
                 throw new ValidationException("Продолжительность фильма должна быть положительным числом");
             }
 
-            oldFilm.setDescription(newFilm.getDescription());
-            oldFilm.setName(newFilm.getName());
-            oldFilm.setDuration(newFilm.getDuration());
-            oldFilm.setReleaseDate(newFilm.getReleaseDate());
+            if (newFilm.getName() != null) {
+                oldFilm.setName(newFilm.getName());
+            }
+            if (newFilm.getDescription() != null) {
+                oldFilm.setDescription(newFilm.getDescription());
+            }
+            if (newFilm.getDuration() != null) {
+                oldFilm.setDuration(newFilm.getDuration());
+            }
+            if (newFilm.getReleaseDate() != null) {
+                oldFilm.setReleaseDate(newFilm.getReleaseDate());
+            }
+
 
             log.info("Фильм обновлен: {}", oldFilm);
             return oldFilm;
