@@ -1,19 +1,26 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class UserControllerTest {
     private static UserController userController;
+    private Validator validator;
 
     @BeforeEach
     public void beforeEach() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
         userController = new UserController();
     }
 
@@ -21,19 +28,16 @@ class UserControllerTest {
     void testCreateUser() {
         User user = new User();
         user.setEmail(" ");
-        assertThrows(ValidationException.class, () -> {
-            userController.create(user);
-        });
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        assertFalse(violations.isEmpty());
         user.setEmail("email@");
         user.setLogin(" ");
-        assertThrows(ValidationException.class, () -> {
-            userController.create(user);
-        });
+        violations = validator.validate(user);
+        assertFalse(violations.isEmpty());
         user.setLogin("a");
         user.setBirthday(LocalDate.parse("2027-12-28"));
-        assertThrows(ValidationException.class, () -> {
-            userController.create(user);
-        });
+        violations = validator.validate(user);
+        assertFalse(violations.isEmpty());
         user.setBirthday(LocalDate.parse("2000-12-28"));
         userController.create(user);
 
