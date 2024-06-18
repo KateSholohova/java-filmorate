@@ -7,11 +7,13 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class Film {
     Long id;
     LocalDate releaseDate;
+    Set<Long> likes;
     @NotBlank
     @NotNull
     String name;

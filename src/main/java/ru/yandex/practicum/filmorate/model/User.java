@@ -7,11 +7,13 @@ import jakarta.validation.constraints.Past;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class User {
     String name;
     Long id;
+    Set<Long> friends;
     @NotNull
     @NotBlank
     @Email

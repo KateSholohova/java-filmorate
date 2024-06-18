@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,14 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FilmControllerTest {
 
-    private static FilmController filmController;
+    private static FilmStorage inMemoryFilmStorage;
     private Validator validator;
 
     @BeforeEach
     public void beforeEach() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        filmController = new FilmController();
+        inMemoryFilmStorage = new InMemoryFilmStorage();
     }
 
     @Test
@@ -33,14 +35,14 @@ class FilmControllerTest {
         film.setName(" ");
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertFalse(violations.isEmpty());
-        film.setName("name");
+        film.setName("names");
         film.setDescription("ааааааааааааааааааааааааааааааааgfffffffffffffffffffffffffffffffffffffffааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа");
         violations = validator.validate(film);
         assertFalse(violations.isEmpty());
         film.setDescription("a");
         film.setReleaseDate(LocalDate.parse("1890-12-28"));
         assertThrows(ValidationException.class, () -> {
-            filmController.create(film);
+            inMemoryFilmStorage.create(film);
         });
         film.setReleaseDate(LocalDate.parse("1900-12-28"));
         film.setDuration(-1);
