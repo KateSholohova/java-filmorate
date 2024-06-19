@@ -70,10 +70,8 @@ public class UserService {
         User other = inMemoryUserStorage.findById(otherId);
         List<User> commonFriends = new ArrayList<>();
         for (Long firstId : user.getFriends()) {
-            for (Long secondId : other.getFriends()) {
-                if (firstId == secondId) {
-                    commonFriends.add(inMemoryUserStorage.findById(firstId));
-                }
+            if (other.getFriends().contains(firstId)) {
+                commonFriends.add(inMemoryUserStorage.findById(firstId));
             }
         }
         return commonFriends;
@@ -89,7 +87,9 @@ public class UserService {
             return allFriends;
         }
         for (Long firstId : user.getFriends()) {
-            allFriends.add(inMemoryUserStorage.findById(firstId));
+            if (inMemoryUserStorage.findById(firstId) != null) {
+                allFriends.add(inMemoryUserStorage.findById(firstId));
+            }
         }
         return allFriends;
     }
